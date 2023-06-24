@@ -10,14 +10,18 @@ import {
   getFighters,
   updateFighterById,
 } from "../controllers/fighter.controller.js";
+import { parseFighterFields } from "../utils/fighter-parser.util.js";
 
 const router = Router();
 
-router.route("/").get(getFighters).post(createFighter);
+router
+  .route("/")
+  .get(getFighters)
+  .post(createFighterValid, parseFighterFields, createFighter);
 router
   .route("/:id")
   .get(getFighterById)
-  .put(updateFighterById)
+  .put(updateFighterValid, parseFighterFields, updateFighterById)
   .delete(deleteFigherById);
 
 export { router };
