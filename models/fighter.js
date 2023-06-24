@@ -1,9 +1,9 @@
 const FIGHTER = {
   id: "",
-  name: "",
-  health: 100,
-  power: 0,
-  defense: 1, // 1 to 10
+  name: "^(?!s*$).+",
+  health: "^(?:8[0-9]|9[0-9]|10[0-9]|11[0-9]|120)$",
+  power: "^(?:100|[1-9][0-9]?|([1-9][0-9]?))$",
+  defense: "^(?:10|[1-9])$", // 1 to 10
 };
 
 export { FIGHTER };
