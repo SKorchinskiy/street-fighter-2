@@ -1,8 +1,6 @@
 import { userRepository } from "../repositories/userRepository.js";
 
 class UserService {
-  // TODO: Implement methods to work with user
-
   create(userData) {
     const user = userRepository.create(userData);
     if (!user) {
