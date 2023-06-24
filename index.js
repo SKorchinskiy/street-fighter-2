@@ -10,9 +10,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-initRoutes(app);
+app.use("/*", express.static("./client/build"));
 
-app.use("/", express.static("./client/build"));
+initRoutes(app);
 
 const port = 3050;
 app.listen(port, () => {});
