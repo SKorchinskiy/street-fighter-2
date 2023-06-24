@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { fighterService } from "../services/fighterService.js";
-import { responseMiddleware } from "../middlewares/response.middleware.js";
 import {
   createFighterValid,
   updateFighterValid,
