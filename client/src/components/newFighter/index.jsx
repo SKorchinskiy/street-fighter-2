@@ -51,7 +51,6 @@ export default function NewFighter({ onCreated }) {
         label="Standard"
         placeholder="Power"
         type="number"
-        defaultValue="1"
         min="1"
         max="100"
       />
@@ -61,7 +60,6 @@ export default function NewFighter({ onCreated }) {
         label="Standard"
         placeholder="Defense"
         type="number"
-        defaultValue="1"
         min="1"
         max="10"
       />
