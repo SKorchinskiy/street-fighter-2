@@ -10,11 +10,11 @@ import "./config/db.js";
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static(join(__dirname, "client", "build")));
+app
+  .use(cors())
+  .use(express.json())
+  .use(express.urlencoded({ extended: true }))
+  .use(express.static(join(__dirname, "client", "build")));
 
 initRoutes(app);
 
