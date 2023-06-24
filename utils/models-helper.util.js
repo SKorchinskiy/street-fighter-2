@@ -1,8 +1,7 @@
-import { USER } from "../../models/user.js";
 import createError from "http-errors";
 
-export function userValidationCheck() {
-  const expectedFields = getUserModelFields();
+export function validationCheck(model) {
+  const expectedFields = getModelFields(model);
   const partialCheck = partialValidationCheck(expectedFields);
   const fullCheck = fullValidationCheck(expectedFields);
   return {
@@ -16,10 +15,11 @@ function partialValidationCheck(expectedFields) {
     const receivedKeys = Object.keys(received);
     receivedKeys.forEach((fieldName) => {
       const regex = expectedFields.get(fieldName);
+      console.log(fieldName, regex, RegExp(regex).test(received[fieldName]));
       if (!regex) {
         throw new createError(
           400,
-          `Redundant field detected when validating user: ${fieldName}`
+          `Redundant field detected when validating: ${fieldName}`
         );
       } else if (!RegExp(regex).test(received[fieldName])) {
         throw new createError(
@@ -46,11 +46,11 @@ function fullValidationCheck(expectedFields) {
   };
 }
 
-function getUserModelFields() {
+function getModelFields(model) {
   const fieldsStorage = new Map();
-  Object.keys(USER).forEach((field) => {
+  Object.keys(model).forEach((field) => {
     if (field !== "id") {
-      fieldsStorage.set(field, USER[field]);
+      fieldsStorage.set(field, model[field]);
     }
   });
   return fieldsStorage;
