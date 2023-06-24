@@ -1,6 +1,7 @@
-import { userValidationCheck } from "./utils/user-helper.util.js";
+import { USER } from "../models/user.js";
+import { validationCheck } from "../utils/models-helper.util.js";
 
-const { fullCheck, partialCheck } = userValidationCheck();
+const { fullCheck, partialCheck } = validationCheck(USER);
 
 const createUserValid = (req, res, next) => {
   try {
