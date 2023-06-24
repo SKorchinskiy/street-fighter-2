@@ -1,12 +1,23 @@
 import { Router } from "express";
-import { fighterService } from "../services/fighterService.js";
 import {
   createFighterValid,
   updateFighterValid,
 } from "../middlewares/fighter.validation.middleware.js";
+import {
+  createFighter,
+  deleteFigherById,
+  getFighterById,
+  getFighters,
+  updateFighterById,
+} from "../controllers/fighter.controller.js";
 
 const router = Router();
 
-// TODO: Implement route controllers for fighter
+router.route("/").get(getFighters).post(createFighter);
+router
+  .route("/:id")
+  .get(getFighterById)
+  .put(updateFighterById)
+  .delete(deleteFigherById);
 
 export { router };
