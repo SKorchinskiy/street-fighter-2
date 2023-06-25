@@ -1,18 +1,36 @@
 import { userRepository } from "../repositories/userRepository.js";
+import createError from "http-errors";
 
 class UserService {
   create(userData) {
+    const areCredentialsInUse =
+      this.userExists({ email: userData.email }) ||
+      this.userExists({ phoneNumber: userData.phoneNumber });
+    if (areCredentialsInUse) {
+      throw new createError(400, {
+        message: `User with provided credentials already exists!`,
+      });
+    }
     const user = userRepository.create(userData);
     if (!user) {
-      return null;
+      throw new createError(500, {
+        message: `An error occured on the server side!`,
+      });
     }
     return user;
+  }
+
+  userExists(params) {
+    const user = userRepository.getOne(params);
+    return user ? true : false;
   }
 
   search(params) {
     const user = userRepository.getOne(params);
     if (!user) {
-      return null;
+      throw new createError(404, {
+        message: `User with provided search params was not found!`,
+      });
     }
     return user;
   }
@@ -20,26 +38,42 @@ class UserService {
   searchAll() {
     const users = userRepository.getAll();
     if (!users) {
-      return null;
+      throw new createError(500, {
+        message: `An error occured on the server side`,
+      });
     }
     return users;
   }
 
   update(id, updateUser) {
-    const user = userRepository.getOne({ id });
+    const user = this.userExists({ id });
     if (!user) {
-      return null;
+      throw new createError(404, {
+        message: `User with id ${id} was not found!`,
+      });
     }
     const updatedUser = userRepository.update(id, updateUser);
+    if (!updatedUser) {
+      throw new createError(500, {
+        message: `An error occured on the server side`,
+      });
+    }
     return updatedUser;
   }
 
   remove(id) {
-    const user = this.search({ id });
+    const user = this.userExists({ id });
     if (!user) {
-      return null;
+      throw new createError(404, {
+        message: `User with id ${id} was not found!`,
+      });
     }
-    userRepository.delete(id);
+    const deletedUser = userRepository.delete(id);
+    if (!deletedUser) {
+      throw new createError(500, {
+        message: `An error occured on the server side`,
+      });
+    }
     return user;
   }
 }
