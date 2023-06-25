@@ -14,7 +14,7 @@ export function getFighterById(req, res) {
 export function createFighter(req, res) {
   const fighterData = req.body;
   const fighter = fighterService.create(fighterData);
-  return res.status(201).json(fighter);
+  return res.status(200).json(fighter);
 }
 
 export function updateFighterById(req, res) {

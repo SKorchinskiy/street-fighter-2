@@ -13,7 +13,7 @@ export function getUserById(req, res) {
 
 export function createUser(req, res) {
   const user = userService.create(req.user);
-  return res.status(201).json(user);
+  return res.status(200).json(user);
 }
 
 export function updateUserById(req, res) {
