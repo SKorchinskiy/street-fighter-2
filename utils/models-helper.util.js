@@ -13,9 +13,14 @@ export function validationCheck(model) {
 function partialValidationCheck(expectedFields) {
   return (received) => {
     const receivedKeys = Object.keys(received);
+    if (receivedKeys.length < 1) {
+      throw new createError(
+        400,
+        `The number of received fields should not be empty!`
+      );
+    }
     receivedKeys.forEach((fieldName) => {
       const regex = expectedFields.get(fieldName);
-      console.log(fieldName, regex, RegExp(regex).test(received[fieldName]));
       if (!regex) {
         throw new createError(
           400,

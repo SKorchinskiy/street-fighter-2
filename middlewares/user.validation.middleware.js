@@ -11,7 +11,10 @@ const createUserValid = (req, res, next) => {
     return next();
   } catch (error) {
     const { status, message } = error;
-    return res.status(status).json({ message });
+    return res.status(status).json({
+      error: true,
+      message,
+    });
   }
 };
 
@@ -23,7 +26,10 @@ const updateUserValid = (req, res, next) => {
     return next();
   } catch (error) {
     const { status, message } = error;
-    return res.status(status).json({ message });
+    return res.status(status).json({
+      error: true,
+      message,
+    });
   }
 };
 
