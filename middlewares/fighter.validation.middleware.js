@@ -14,7 +14,10 @@ const createFighterValid = (req, res, next) => {
     return next();
   } catch (error) {
     const { status, message } = error;
-    return res.status(status).json({ message });
+    return res.status(status).json({
+      error: true,
+      message,
+    });
   }
 };
 
@@ -24,9 +27,12 @@ const updateFighterValid = (req, res, next) => {
     partialCheck(fighter);
     req.fighter = fighter;
     return next();
-  } catch (erro) {
+  } catch (error) {
     const { status, message } = error;
-    return res.status(status).json({ message });
+    return res.status(status).json({
+      error: true,
+      message,
+    });
   }
 };
 
