@@ -45,6 +45,18 @@ class UserService {
     return users;
   }
 
+  checkUniqueCredentialsViolation(user) {
+    const { email, phoneNumber } = user;
+    const emailOverlaps = email ? this.userExists({ email }) : false;
+    const phoneNumberOverlaps = phoneNumber
+      ? this.userExists({ phoneNumber })
+      : false;
+    if (emailOverlaps || phoneNumberOverlaps) {
+      return true;
+    }
+    return false;
+  }
+
   update(id, updateUser) {
     const user = this.userExists({ id });
     if (!user) {
@@ -52,6 +64,14 @@ class UserService {
         message: `User with id ${id} was not found!`,
       });
     }
+
+    const violation = this.checkUniqueCredentialsViolation(updateUser);
+    if (violation) {
+      throw new createError(400, {
+        message: `User with provided credentials already exists!`,
+      });
+    }
+
     const updatedUser = userRepository.update(id, updateUser);
     if (!updatedUser) {
       throw new createError(500, {
@@ -69,12 +89,13 @@ class UserService {
       });
     }
     const deletedUser = userRepository.delete(id);
+    console.log(deletedUser);
     if (!deletedUser) {
       throw new createError(500, {
         message: `An error occured on the server side`,
       });
     }
-    return user;
+    return deletedUser;
   }
 }
 
