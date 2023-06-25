@@ -15,7 +15,6 @@ function partialValidationCheck(expectedFields) {
     const receivedKeys = Object.keys(received);
     receivedKeys.forEach((fieldName) => {
       const regex = expectedFields.get(fieldName);
-      console.log(fieldName, regex, RegExp(regex).test(received[fieldName]));
       if (!regex) {
         throw new createError(
           400,
